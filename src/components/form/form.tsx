@@ -4,8 +4,18 @@ import './form.scss';
 
 const TYPES = ['general', 'dad', 'knock-knock', 'programming'];
 
-export const Form = ({ onSubmitData }) => {
-  const [formData, setFormData] = useState({
+interface FormProps {
+  onSubmitData: (data: { name: string; type: string; count: number }) => void;
+}
+
+interface FormData {
+  name: string;
+  type: string;
+  count: number;
+}
+
+export const Form = ({ onSubmitData }: FormProps) => {
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     type: '',
     count: 0,
@@ -16,7 +26,7 @@ export const Form = ({ onSubmitData }) => {
     options.push(i + 1);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmitData(formData);
   };
@@ -28,7 +38,7 @@ export const Form = ({ onSubmitData }) => {
         <input
           className="form__input"
           name='name'
-          onChange={(e) => setFormData({...formData, name: e.target.value})}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({...formData, name: e.target.value})}
           required
         />
       </label>
@@ -38,7 +48,7 @@ export const Form = ({ onSubmitData }) => {
         <select
           className="form__input"
           name='name'
-          onChange={(e) => setFormData({...formData, type: e.target.value})}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({...formData, type: e.target.value})}
           required
         >
           <option value="">Select one</option>
@@ -50,8 +60,8 @@ export const Form = ({ onSubmitData }) => {
         Select count of Jokes
         <select
           className="form__input"
-          name='name'
-          onChange={(e) => setFormData({...formData, count: e.target.value})}
+          name='count'
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFormData({...formData, count: e.target.value ? parseInt(e.target.value, 10) : 0})}
           required
         >
           <option value="">Select one</option>
